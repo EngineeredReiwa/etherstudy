@@ -6,14 +6,19 @@ const Web3 = require("web3");
 // Instance of web3 library
 const web3 = new Web3(ganache.provider());
 
-beforeEach(() => {
-    // Get list of all accounts
-    web3.eth.getAccounts().then((fetchedAccounts) => {
-        console.log(fetchedAccounts);
-    });
+let accounts;
+
+beforeEach(
+    async () => {
+        // Get list of all accounts
+        accounts = await web3.eth.getAccounts();
+    }
 
     // Use one of those accounts to deploy
     // the contract
-});
+);
 
-describe("Inbox", () => it("deploys a contract", () => {}));
+describe("Inbox", () =>
+    it("deploys a contract", () => {
+        console.log(accounts);
+    }));
