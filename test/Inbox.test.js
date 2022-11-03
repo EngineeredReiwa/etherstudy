@@ -1,24 +1,25 @@
-// contract test code will go here
 const assert = require("assert");
 const ganache = require("ganache-cli");
-// Constructor function
 const Web3 = require("web3");
-// Instance of web3 library
 const web3 = new Web3(ganache.provider());
+const { interface, bytecode } = require("../compile");
 
 let accounts;
+let inbox;
 
-beforeEach(
-    async () => {
-        // Get list of all accounts
-        accounts = await web3.eth.getAccounts();
-    }
+beforeEach(async () => {
+    // Get a list of all accounts
+    accounts = await web3.eth.getAccounts();
+    inbox = await new web3.eth.Contract(JSON.parse(interface))
+        .deploy({
+            data: bytecode,
+            arguments: ["Hi there!"],
+        })
+        .send({ from: accounts[0], gas: "1000000" });
+});
 
-    // Use one of those accounts to deploy
-    // the contract
-);
-
-describe("Inbox", () =>
+describe("Inbox", () => {
     it("deploys a contract", () => {
-        console.log(accounts);
-    }));
+        console.log(inbox);
+    });
+});
